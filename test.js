@@ -30,19 +30,16 @@ describe('kuji.graph Tests', function () {
 
 
     it('test dependsOn() to return good objects', function () {
-
         var dependencies = ['a', 'b', 'c'];
 
         // Create a function that returns its own dependencies
-        var value = dependsOn(dependencies, function () {
-            return this.dependencies;
-        })();
+        var task = dependsOn(dependencies, function () {
+        });
 
         // Compare two arrays
-        expect(value.length).to.equal(dependencies.length);
-        for (var key in value)
-            expect(value[key]).to.equal(dependencies[key]);
-
+        expect(task.dependencies.length).to.equal(dependencies.length);
+        for (var key in task.dependencies)
+            expect(task.dependencies[key]).to.equal(dependencies[key]);
     });
 
 });
