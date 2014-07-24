@@ -29,7 +29,7 @@ describe('kuji.graph Tests', function () {
     });
 
 
-    it('test dependsOn() to return good objects', function () {
+    it('test if _dependsOn() add dependencies to task', function () {
         var dependencies = ['a', 'b', 'c'];
 
         // Create a function that returns its own dependencies
@@ -42,4 +42,24 @@ describe('kuji.graph Tests', function () {
             expect(task.dependencies[key]).to.equal(dependencies[key]);
     });
 
+
+    it('handles a single-dependency task', function (done) {
+
+        var respectedOrder = false;
+
+        kuji.graph({
+            a: function (next) {
+                setTimeout(function () {
+                    respectedOrder = true;
+                    next();
+                }, 400);
+            },
+
+            b: dependsOn(['a'], function () {
+                expect(respectedOrder).to.be(true);
+                done();
+            })
+        });
+
+    });
 });
