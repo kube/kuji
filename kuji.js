@@ -30,8 +30,12 @@ var kuji = {
             var task = root[i];
 
             var next = function () {
-                for (var p in task.promises)
-                    task.promises[p]();
+                for (var p in task.promises) {
+                    if (!task.promises[p].started) {
+                        task.promises[p].started = true;
+                        task.promises[p]();
+                    }
+                }
             };
             task(next);
         }
