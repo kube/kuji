@@ -85,4 +85,30 @@ describe('kuji.graph', function () {
             })
         });
     });
+
+
+    it('handles inline single-dependency tasks', function (done) {
+        var counter = 0;
+
+        kuji.graph({
+            a: function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(0);
+                    counter++;
+                    next();
+                }, 10);
+            },
+            b: dependsOn('a', function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(1);
+                    counter += 2;
+                    next();
+                }, 10);
+            }),
+            c: dependsOn('b', function () {
+                expect(counter).to.be(3);
+                done();
+            })
+        });
+    });
 });
