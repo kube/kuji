@@ -4,17 +4,36 @@
     dependsOn = kuji._dependsOn;
 
 
-describe('kuji.graph Tests', function () {
+describe('kuji._dependsOn', function () {
     
-    it('runs all tasks', function (done) {
+    it('adds dependencies to task', function (done) {
+        var dependencies = ['a', 'b', 'c'];
+
+        // Create a function with some dependencies
+        var task = dependsOn(dependencies, function () {
+        });
+
+        // Compare two arrays
+        expect(task.dependencies.length).to.equal(dependencies.length);
+        for (var key in task.dependencies)
+            expect(task.dependencies[key]).to.equal(dependencies[key]);
+        done();
+    });
+});
+
+
+describe('kuji.graph', function () {
+    
+    it('runs all tasks, in order', function (done) {
         var tasks = [],
             counter = 0,
-            iterations = 100;
+            iterations = 40;
 
         // Increment counter with all powers of 2
         for (var i = 0; i < iterations; i++)
             tasks.push((function (i) {
                 return function () {
+                    expect(counter).to.equal(Math.pow(2, i) - 1);
                     counter += Math.pow(2, i);
                 }
             })(i));
@@ -26,20 +45,6 @@ describe('kuji.graph Tests', function () {
         });
 
         kuji.graph(tasks);
-    });
-
-
-    it('test if _dependsOn() add dependencies to task', function () {
-        var dependencies = ['a', 'b', 'c'];
-
-        // Create a function with some dependencies
-        var task = dependsOn(dependencies, function () {
-        });
-
-        // Compare two arrays
-        expect(task.dependencies.length).to.equal(dependencies.length);
-        for (var key in task.dependencies)
-            expect(task.dependencies[key]).to.equal(dependencies[key]);
     });
 
 
@@ -63,7 +68,7 @@ describe('kuji.graph Tests', function () {
     });
 
 
-    it('cannot run a task two times', function () {
+    it('cannot run a task two times', function (done) {
         var times = 0;
 
         // Call next two times should not run
@@ -76,7 +81,7 @@ describe('kuji.graph Tests', function () {
             b: dependsOn('a', function () {
                 times++;
                 expect(times).to.be(1);
-                
+                done();
             })
         });
     });
