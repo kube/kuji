@@ -9,7 +9,7 @@ describe('kuji.graph Tests', function () {
     it('runs all tasks', function (done) {
         var tasks = [],
             counter = 0,
-            iterations = 1000;
+            iterations = 100;
 
         // Increment counter with all powers of 2
         for (var i = 0; i < iterations; i++)
@@ -32,7 +32,7 @@ describe('kuji.graph Tests', function () {
     it('test if _dependsOn() add dependencies to task', function () {
         var dependencies = ['a', 'b', 'c'];
 
-        // Create a function that returns its own dependencies
+        // Create a function with some dependencies
         var task = dependsOn(dependencies, function () {
         });
 
@@ -44,18 +44,18 @@ describe('kuji.graph Tests', function () {
 
 
     it('handles a single-dependency task', function (done) {
-
         var respectedOrder = false;
 
+        // If respectedOrder is still false when B is ran
+        // then promise does not work
         kuji.graph({
             a: function (next) {
                 setTimeout(function () {
                     respectedOrder = true;
                     next();
-                }, 400);
+                }, 10);
             },
-
-            b: dependsOn(['a'], function () {
+            b: dependsOn('a', function () {
                 expect(respectedOrder).to.be(true);
                 done();
             })
