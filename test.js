@@ -60,6 +60,24 @@ describe('kuji.graph Tests', function () {
                 done();
             })
         });
+    });
 
+
+    it('cannot run a task two times', function () {
+        var times = 0;
+
+        // Call next two times should not run
+        // the promise more than once
+        kuji.graph({
+            a: function (next) {
+                next();
+                next();
+            },
+            b: dependsOn('a', function () {
+                times++;
+                expect(times).to.be(1);
+                
+            })
+        });
     });
 });
