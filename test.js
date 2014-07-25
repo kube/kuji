@@ -68,7 +68,7 @@ describe('kuji.graph', function () {
     });
 
 
-    it('cannot run a task two times', function (done) {
+    it('cannot run a task two times', function () {
         var times = 0;
 
         // Call next two times should not run
@@ -81,7 +81,6 @@ describe('kuji.graph', function () {
             b: dependsOn('a', function () {
                 times++;
                 expect(times).to.be(1);
-                done();
             })
         });
     });

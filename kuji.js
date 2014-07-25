@@ -1,4 +1,13 @@
 ﻿
+                                                     /*#######.
+    kuji.js                                         ########",#:
+                                                  #########',##".
+    by KUBE  : www.kube.io                       ##'##'##".##',##.
+    Created  : Jul 23, 2014 6:55PM                ## ## ## # ##",#.
+    Modified : Jul 25, 2014 6:17PM                 ## ## ## ## ##'
+                                                    ## ## ## :##
+                                                     ## ## ##*/
+
 var kuji = {
 
     // Helper for adding dependencies to task
