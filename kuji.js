@@ -23,21 +23,25 @@ var kuji = {
             else
                 for (var j in task.dependencies)
                     tasks[task.dependencies[j]].promises.push(task);
+
+            // Create Next for each task
+            task.next = (function (task) {
+                return function () {
+                    for (var p in task.promises) {
+                        var promise = task.promises[p];
+                        if (!promise.started) {
+                            promise.started = true;
+                            promise(promise.next);
+                        }
+                    }
+                }
+            })(task);
         }
 
         // Run graph from root
         for (var i in root) {
             var task = root[i];
-
-            var next = function () {
-                for (var p in task.promises) {
-                    if (!task.promises[p].started) {
-                        task.promises[p].started = true;
-                        task.promises[p]();
-                    }
-                }
-            };
-            task(next);
+            task(task.next);
         }
     }
 
