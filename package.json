@@ -1,0 +1,22 @@
+{
+  "name": "kuji",
+  "description": "Asynchronous library for Node",
+  "main": "./kuji",
+  "author": {
+    "name": "Christophe Feijoo"
+  },
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kubekhrm/kuji.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kubekhrm/kuji/issues"
+  },
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "homepage": "https://github.com/kubekhrm/kuji",
+  "_id": "kuji@0.0.1",
+  "_from": "kuji@"
+}
