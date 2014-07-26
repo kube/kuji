@@ -9,10 +9,20 @@
                                                      ## ## ##*/
 
 var Task = function (task) {
+    var self = this;
 
     var _dependencies = [],
         _promises = [],
         _started = false;
+
+    this.finished = false;
+
+    this.isReadyToGo = function () {
+        for (var i in _dependencies)
+            if (!_dependencies[i].finished)
+                return false;
+        return true;
+    }
 
     this.addDependency = function (dependency) {
         _dependencies.push(dependency);
@@ -24,10 +34,12 @@ var Task = function (task) {
     }
 
     this.start = function () {
-        if (!_started) {
+        if (!_started && this.isReadyToGo()) {
             _started = true;
             // Run task and pass it the callback
-            task(function(){
+            task(function () {
+                // Define task as finished
+                self.finished = true;
                 // Run all its promises
                 for (var i in _promises)
                     _promises[i].start();
