@@ -110,4 +110,45 @@ describe('kuji.graph', function () {
             })
         });
     });
+
+
+    it('handles multiple-dependencies tasks', function (done) {
+        var counter = 0;
+
+        kuji.graph({
+            a: function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(0);
+                    counter++;
+                    next();
+                }, 100);
+            },
+            b: function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(1);
+                    counter += 2;
+                    next();
+                }, 100);
+            },
+            c: function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(3);
+                    counter += 4;
+                    next();
+                }, 100);
+            },
+            d: dependsOn(['a', 'b'], function (next) {
+                setTimeout(function () {
+                    // Check if A and B have incremented the counter
+                    expect(counter & 3).to.be(3);
+                    counter += 8;
+                    next();
+                }, 100);
+            }),
+            e: dependsOn(['d', 'c'], function () {
+                expect(counter).to.be(15);
+                done();
+            })
+        });
+    });
 });
