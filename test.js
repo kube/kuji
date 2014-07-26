@@ -121,21 +121,21 @@ describe('kuji.graph', function () {
                     expect(counter).to.be(0);
                     counter++;
                     next();
-                }, 100);
+                }, 10);
             },
             b: function (next) {
                 setTimeout(function () {
                     expect(counter).to.be(1);
                     counter += 2;
                     next();
-                }, 100);
+                }, 10);
             },
             c: function (next) {
                 setTimeout(function () {
                     expect(counter).to.be(3);
                     counter += 4;
                     next();
-                }, 100);
+                }, 10);
             },
             d: dependsOn(['a', 'b'], function (next) {
                 setTimeout(function () {
@@ -143,7 +143,7 @@ describe('kuji.graph', function () {
                     expect(counter & 3).to.be(3);
                     counter += 8;
                     next();
-                }, 100);
+                }, 10);
             }),
             e: dependsOn(['d', 'c'], function () {
                 expect(counter).to.be(15);

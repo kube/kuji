@@ -4,7 +4,7 @@
                                                   #########',##".
     by KUBE  : www.kube.io                       ##'##'##".##',##.
     Created  : Jul 23, 2014 6:55PM                ## ## ## # ##",#.
-    Modified : Jul 26, 2014 2:43AM                 ## ## ## ## ##'
+    Modified : Jul 26, 2014 8:01PM                 ## ## ## ## ##'
                                                     ## ## ## :##
                                                      ## ## ##*/
 
@@ -33,17 +33,21 @@ var Task = function (task) {
         _promises.push(promise);
     }
 
+    // Check if task accepts callback, then create Next callback
+    if (task.length > 0)
+        var next = function () {
+            // Define task as finished
+            self.finished = true;
+            // Run all its promises
+            for (var i in _promises)
+                _promises[i].start();
+        };
+
     this.start = function () {
         if (!_started && this.isReadyToGo()) {
             _started = true;
             // Run task and pass it the callback
-            task(function () {
-                // Define task as finished
-                self.finished = true;
-                // Run all its promises
-                for (var i in _promises)
-                    _promises[i].start();
-            });
+            task(next);
         }
     }
 
