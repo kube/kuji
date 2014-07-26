@@ -4,9 +4,64 @@
                                                   #########',##".
     by KUBE  : www.kube.io                       ##'##'##".##',##.
     Created  : Jul 23, 2014 6:55PM                ## ## ## # ##",#.
-    Modified : Jul 25, 2014 6:17PM                 ## ## ## ## ##'
+    Modified : Jul 26, 2014 2:43AM                 ## ## ## ## ##'
                                                     ## ## ## :##
                                                      ## ## ##*/
+
+var Task = function (task) {
+
+    var _dependencies = [],
+        _promises = [],
+        _started = false;
+
+    this.addDependency = function (dependency) {
+        _dependencies.push(dependency);
+        dependency.addPromise(this);
+    }
+
+    this.addPromise = function (promise) {
+        _promises.push(promise);
+    }
+
+    this.start = function () {
+        if (!_started) {
+            _started = true;
+            // Run task and pass it the callback
+            task(function(){
+                // Run all its promises
+                for (var i in _promises)
+                    _promises[i].start();
+            });
+        }
+    }
+
+}
+
+var Graph = function () {
+    
+    var _nodes = [],
+        _root = [];
+
+    this.addTask = function (name, task) {
+        var node = new Task(task);
+
+        // If task has no dependency add it to the graph root
+        if (!task.dependencies || task.dependencies.length == 0)
+            _root.push(node);
+        // Else add each of its dependencies to the node
+        else
+            for (var i in task.dependencies)
+                node.addDependency(_nodes[task.dependencies[i]]);
+        _nodes[name] = node;
+    }
+
+    this.start = function () {
+        // Start all tasks at root
+        for (var i in _root)
+            _root[i].start();
+    }
+}
+
 
 var kuji = {
 
@@ -18,42 +73,16 @@ var kuji = {
         return task;
     },
 
-
+    // Creates a graph from tasks array and run it
     graph: function (tasks) {
-        // Create graph of tasks
-        var root = [];
-        for (var i in tasks) {
+        var _graph = new Graph();
 
-            var task = tasks[i];
-            task.promises = [];
+        // Add all tasks to graph
+        for (var i in tasks) 
+            _graph.addTask(i, tasks[i]);
 
-            if (!task.dependencies)
-                root.push(task);
-            else
-                for (var j in task.dependencies)
-                    tasks[task.dependencies[j]].promises.push(task);
-
-            // Create Next for each task
-            task.next = (function (task) {
-                return function () {
-                    for (var p in task.promises) {
-                        var promise = task.promises[p];
-                        if (!promise.started) {
-                            promise.started = true;
-                            promise(promise.next);
-                        }
-                    }
-                }
-            })(task);
-        }
-
-        // Run graph from root
-        for (var i in root) {
-            var task = root[i];
-            task(task.next);
-        }
+        _graph.start();
     }
-
 };
 
 module.exports = kuji;
