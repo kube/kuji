@@ -1,7 +1,7 @@
 kuji
 ====
 
-###Asynchronous library for Node.
+###Asynchronous Control-Flow library for Node.
 
 Browsers are not supported yet, it will be added later.
 
