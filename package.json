@@ -1,6 +1,6 @@
 {
   "name": "kuji",
-  "description": "Asynchronous library for Node",
+  "description": "Asynchronous Control Flow library for Node",
   "main": "./kuji",
   "author": "Christophe Feijoo",
   "version": "0.0.1",
