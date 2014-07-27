@@ -28,8 +28,7 @@ kuji.graph({
   }),
   e: dependsOn(['d', 'c'], function () {
 
-  }),
-  g: kuji.end()
+  })
 });
 
 ```
