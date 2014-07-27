@@ -23,9 +23,9 @@
   },
   "keywords": [
     "asynchronous",
+    "control-flow",
     "async",
     "promise",
-    "timeline"
   ],
   "license": "MIT"
 }

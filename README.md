@@ -1,7 +1,7 @@
 kuji
 ====
 
-###Asynchronous Control-Flow library for Node.
+###Asynchronous Control Flow library for Node.
 
 Browsers are not supported yet, it will be added later.
 
@@ -10,7 +10,7 @@ Browsers are not supported yet, it will be added later.
 `kuji.graph` permits you to easily run __tasks graphs__:
 
 ``` javascript
-var kuji = require('./kuji.js'),
+var kuji = require('kuji'),
     dependsOn = kuji._dependsOn;
 
 kuji.graph({
