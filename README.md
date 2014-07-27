@@ -1,8 +1,12 @@
 kuji
 ====
 
-Asynchronous library for Node
+###Asynchronous library for Node.
 
+Browsers are not supported yet, it will be added later.
+
+
+##What's inside
 `kuji.graph` permits you to easily run __tasks graphs__:
 
 ``` javascript
@@ -29,7 +33,15 @@ kuji.graph({
 
 ```
 
+##Coming next
+- Error handling through next()
+- Passing values through next()
+- Final callback
+- Benchmark
+- Perfomance optimization
+- kuji.series and kuji.parallel
 
+##Testing
 To run the tests :
 ```
 mocha

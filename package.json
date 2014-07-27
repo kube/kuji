@@ -2,9 +2,7 @@
   "name": "kuji",
   "description": "Asynchronous library for Node",
   "main": "./kuji",
-  "author": {
-    "name": "Christophe Feijoo"
-  },
+  "author": "Christophe Feijoo",
   "version": "0.0.1",
   "repository": {
     "type": "git",
@@ -17,6 +15,17 @@
     "test": "mocha -R spec"
   },
   "homepage": "https://github.com/kubekhrm/kuji",
-  "_id": "kuji@0.0.1",
-  "_from": "kuji@"
+  "_from": "kuji@",
+  "dependencies": {},
+  "devDependencies": {
+    "expect.js": "~0.3.1",
+    "superagent": "~0.18.2"
+  },
+  "keywords": [
+    "asynchronous",
+    "async",
+    "promise",
+    "timeline"
+  ],
+  "license": "ISC"
 }
