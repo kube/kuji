@@ -28,7 +28,8 @@ kuji.graph({
   }),
   e: dependsOn(['d', 'c'], function () {
 
-  })
+  }),
+  g: kuji.end()
 });
 
 ```
@@ -46,3 +47,6 @@ To run the tests :
 ```
 mocha
 ```
+
+##License
+MIT
