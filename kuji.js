@@ -8,7 +8,7 @@
                                                     ## ## ## :##
                                                      ## ## ##*/
 
-var Task = function (task) {
+var Task = function (graph, task) {
     var self = this;
 
     var _dependencies = [],
@@ -37,9 +37,14 @@ var Task = function (task) {
     var next = function () {
         // Define task as finished
         self.finished = true;
-        // Run all its promises
-        for (var i in _promises)
-            _promises[i].start();
+        // Run all its promises, if some
+        if (_promises.length > 0)
+            for (var i in _promises)
+                _promises[i].start();
+        // If no promise, maybe graph has finished its tasks
+        else
+            graph.tryFinish();
+
     };
 
     this.start = function () {
@@ -52,13 +57,14 @@ var Task = function (task) {
 
 }
 
-var Graph = function () {
+var Graph = function (finalCallback) {
     
     var _nodes = [],
-        _root = [];
+        _root = [],
+        _finalCallback;
 
     this.addTask = function (name, task) {
-        var node = new Task(task);
+        var node = new Task(this, task);
 
         // If task has no dependency add it to the graph root
         if (!task.dependencies || task.dependencies.length == 0)
@@ -75,6 +81,21 @@ var Graph = function () {
         for (var i in _root)
             _root[i].start();
     }
+
+    this.setFinalCallback = function (finalCallback) {
+        _finalCallback = finalCallback;        
+    }
+
+    this.tryFinish = function () {
+        // Ensure there is a final callback
+        if (!_finalCallback)
+            return;
+        // Check if all nodes have been executed
+        for (var i in _nodes)
+            if (!_nodes[i].finished)
+                return;
+            _finalCallback();
+    }
 }
 
 
@@ -89,12 +110,15 @@ var kuji = {
     },
 
     // Creates a graph from tasks array and run it
-    graph: function (tasks) {
+    graph: function (tasks, finalCallback) {
         var _graph = new Graph();
 
         // Add all tasks to graph
         for (var i in tasks) 
             _graph.addTask(i, tasks[i]);
+
+        if (finalCallback)
+            _graph.setFinalCallback(finalCallback);
 
         _graph.start();
     }
