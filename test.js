@@ -151,4 +151,48 @@ describe('kuji.graph', function () {
             })
         });
     });
+
+    it('goes to final callback if supplied', function (done) {
+        var counter = 0;
+
+        kuji.graph({
+            a: function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(0);
+                    counter++;
+                    next();
+                }, 10);
+            },
+            b: function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(1);
+                    counter += 2;
+                    next();
+                }, 10);
+            },
+            c: function (next) {
+                setTimeout(function () {
+                    expect(counter).to.be(3);
+                    counter += 4;
+                    next();
+                }, 10);
+            },
+            d: dependsOn(['a', 'b'], function (next) {
+                setTimeout(function () {
+                    // Check if A and B have incremented the counter
+                    expect(counter & 3).to.be(3);
+                    counter += 8;
+                    next();
+                }, 10);
+            }),
+            e: dependsOn(['d', 'c'], function (next) {
+                expect(counter).to.be(15);
+                counter += 16;
+                next();
+            })
+        }, function () {
+            expect(counter).to.be(31);
+            done();
+        });
+    });
 });
