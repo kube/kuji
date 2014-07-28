@@ -33,15 +33,14 @@ var Task = function (task) {
         _promises.push(promise);
     }
 
-    // Check if task accepts callback, then create Next callback
-    if (task.length > 0)
-        var next = function () {
-            // Define task as finished
-            self.finished = true;
-            // Run all its promises
-            for (var i in _promises)
-                _promises[i].start();
-        };
+    // Create Next callback
+    var next = function () {
+        // Define task as finished
+        self.finished = true;
+        // Run all its promises
+        for (var i in _promises)
+            _promises[i].start();
+    };
 
     this.start = function () {
         if (!_started && this.isReadyToGo()) {
