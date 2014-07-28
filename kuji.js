@@ -121,6 +121,21 @@ var kuji = {
             _graph.setFinalCallback(finalCallback);
 
         _graph.start();
+    },
+
+    parallel: function (tasks, finalCallback) {
+        var _graph = new Graph();
+
+        // Add all tasks to graph
+        for (var i in tasks) {
+            delete tasks[i].dependencies;
+            _graph.addTask(i, tasks[i]);
+        }
+
+        if (finalCallback)
+            _graph.setFinalCallback(finalCallback);
+
+        _graph.start();
     }
 };
 
