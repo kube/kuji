@@ -196,3 +196,45 @@ describe('kuji.graph', function () {
         });
     });
 });
+
+
+describe('kuji.parallel', function () {
+
+    it('runs tasks in parallel and goes to final callback', function (done) {
+        var counter = 0;
+
+        kuji.parallel({
+            a: function (next) {
+                expect(counter).to.be(0);
+                setTimeout(function () {
+                    counter++;
+                    next();
+                }, 10);
+            },
+            b: function (next) {
+                expect(counter).to.be(0);
+                setTimeout(function () {
+                    counter += 2;
+                    next();
+                }, 10);
+            },
+            c: function (next) {
+                expect(counter).to.be(0);
+                setTimeout(function () {
+                    counter += 4;
+                    next();
+                }, 10);
+            },
+            d: function (next) {
+                expect(counter).to.be(0);
+                setTimeout(function () {
+                    counter += 8;
+                    next();
+                }, 10);
+            }
+        }, function () {
+            expect(counter).to.be(15);
+            done();
+        });
+    });
+});
