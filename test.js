@@ -238,3 +238,41 @@ describe('kuji.parallel', function () {
         });
     });
 });
+
+describe('kuji.inline', function () {
+
+    it('runs tasks in-line', function (done) {
+        var counter = 0;
+
+        kuji.inline([
+            function (next) {
+                expect(counter).to.be(0);
+                setTimeout(function () {
+                    counter++;
+                    next();
+                }, 10);
+            },
+            function (next) {
+                expect(counter).to.be(1);
+                setTimeout(function () {
+                    counter += 2;
+                    next();
+                }, 10);
+            },
+            function (next) {
+                expect(counter).to.be(3);
+                setTimeout(function () {
+                    counter += 4;
+                    next();
+                }, 10);
+            },
+            function (next) {
+                expect(counter).to.be(7);
+                setTimeout(function () {
+                    counter += 8;
+                    next();
+                }, 10);
+            }
+        ]);
+    });
+});
