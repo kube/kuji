@@ -270,7 +270,7 @@ describe('kuji.inline', function () {
                 expect(counter).to.be(7);
                 setTimeout(function () {
                     counter += 8;
-                    next();
+                    done();
                 }, 10);
             }
         ]);
