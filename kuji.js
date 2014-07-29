@@ -4,7 +4,7 @@
                                                   #########',##".
     by KUBE  : www.kube.io                       ##'##'##".##',##.
     Created  : Jul 23, 2014 6:55PM                ## ## ## # ##",#.
-    Modified : Jul 26, 2014 8:01PM                 ## ## ## ## ##'
+    Modified : Jul 29, 2014 2:16AM                 ## ## ## ## ##'
                                                     ## ## ## :##
                                                      ## ## ##*/
 
@@ -135,6 +135,23 @@ var kuji = {
         if (finalCallback)
             _graph.setFinalCallback(finalCallback);
 
+        _graph.start();
+    },
+
+    inline: function (tasks) {
+        var _graph = new Graph();
+
+        // Add all tasks to graph
+        var previous = null;
+        for (var i in tasks) {
+            // Set task dependency to previous task
+            delete tasks[i].dependencies;
+            if (previous)
+                tasks[i].dependencies = [previous];
+
+            _graph.addTask(i, tasks[i]);
+            previous = i;
+        }
         _graph.start();
     }
 };
