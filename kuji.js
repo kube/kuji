@@ -26,7 +26,7 @@ var Task = function (graph, task) {
 
     this.addDependency = function (dependency) {
         _dependencies.push(dependency);
-        dependency.addPromise(this);
+        dependency.addPromise(self);
     }
 
     this.addPromise = function (promise) {
@@ -48,7 +48,7 @@ var Task = function (graph, task) {
     };
 
     this.start = function () {
-        if (!_started && this.isReadyToGo()) {
+        if (!_started && self.isReadyToGo()) {
             _started = true;
             // Run task and pass it the callback
             task(next);
