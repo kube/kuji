@@ -1,18 +1,16 @@
 kuji
 ====
 
-###Asynchronous Control Flow library for Node.
+### Asynchronous Control Flow library for Node.
 
 Browsers are not supported yet, it will be added later.
 
-##Control Flow
+## Control Flow
 
-###kuji.inline
+### kuji.inline
 `kuji.inline` runs tasks **in-line**:
 
-![Inline Timeline Example](img/inline.png?raw=true "Inline Timeline Example")
-
-``` javascript
+```js
 var kuji = require('kuji');
 
 kuji.inline([
@@ -29,15 +27,15 @@ kuji.inline([
     next();
   }
 ]);
-
 ```
 
-###kuji.parallel
+![Inline Timeline Example](img/inline.png)
+
+
+### kuji.parallel
 `kuji.parallel` runs tasks **in parallel** and goes to the final callback when all tasks finished:
 
-![Parallel Timeline Example](img/parallel.png?raw=true "Parallel Timeline Example")
-
-``` javascript
+```js
 var kuji = require('kuji');
 
 kuji.parallel([
@@ -58,17 +56,13 @@ kuji.parallel([
 });
 ```
 
-###kuji.graph
+![Parallel Timeline Example](img/parallel.png)
 
+
+### kuji.graph
 `kuji.graph` permits you to easily run __tasks graphs__:
 
-![Graph Timeline Example](img/graph.png?raw=true "Graph Timeline Example")
-
-You can see that __D__ will be executed once its dependencies (__A__ and __B__) are finished, permitting you to be sure that the data you need from these tasks will be available.
-
-For the moment you need to use a closure to share data between tasks, but this will be patched in the next few days.
-
-``` javascript
+```js
 var kuji = require('kuji'),
     dependsOn = kuji._dependsOn;
 
@@ -91,20 +85,25 @@ kuji.graph({
 }, function () {
   // This will be executed at the end of your graph
 });
-
 ```
 
-##Coming next
-- Error handling through next()
-- Passing values through next()
+You can see that __D__ will be executed once its dependencies (__A__ and __B__) are finished, permitting you to be sure that the data you need from these tasks will be available:
+
+![Graph Timeline Example](img/graph.png)
+
+For the moment you need to use a closure to share data between tasks, but this will be patched in the next few days.
+
+## Coming next
+- Error handling through `next()`
+- Passing values through `next()`
 - Benchmark
 - Perfomance optimization
 
-##Testing
+## Testing
 To run the tests :
 ```
 mocha
 ```
 
-##License
+## License
 MIT
